@@ -1,0 +1,44 @@
+### 课程查询接口
+POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=2
+Content-Type: application/json
+
+{
+  "auditStatus": "202004",
+  "courseName": "",
+  "publishStatus": ""
+}
+
+### 课程分类查询
+GET {{gateway_host}}/content/course-category/tree-nodes
+
+### 新增课程
+POST {{gateway_host}}/content/course
+Content-Type: application/json
+
+{
+
+  "mt": "1-1",
+  "st": "1-1-1",
+  "name": "",
+  "pic": "",
+  "teachmode": "200002",
+  "users": "初级人员",
+  "tags": "标签",
+  "grade": "204001",
+  "description": "课程介绍",
+  "charge": "201001",
+  "price": "0",
+  "originalPrice":"0",
+  "qq": "16086243",
+  "wechat": "4324322",
+  "phone": "432432",
+  "validDays": 365
+}
+
+### 课程计划查询
+GET {{gateway_host}}/content/teachplan/117/tree-nodes
+Content-Type: application/json
+
+### 通过网关进行课程查询
+GET {{gateway_host}}/content/course/18
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ6aGFuZ3NhbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2Nzg0MjI0NTAsImF1dGhvcml0aWVzIjpbInAxIl0sImp0aSI6IjZjMGVmNzgyLTE2MjktNDY4ZC1hMWNhLTVjMzY0YzZiNTcwYyIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.PNcHB_VouphZdGKYxKZuV6d7sthpGz_Eio5uMaUhLZEeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsieHVlY2hlbmctcGx1cyJdLCJ1c2VyX25hbWUiOiJ7XCJiaXJ0aGRheVwiOlwiMjAyMi0wOS0yOFQxOToyODo0NlwiLFwiY3JlYXRlVGltZVwiOlwiMjAyMi0wOS0yOFQwODozMjowM1wiLFwiaWRcIjpcIjUwXCIsXCJuYW1lXCI6XCLlrabnlJ8xXCIsXCJuaWNrbmFtZVwiOlwi5aSn5rC054mbXCIsXCJzZXhcIjpcIjFcIixcInN0YXR1c1wiOlwiMVwiLFwidXNlcm5hbWVcIjpcInN0dTFcIixcInVzZXJwaWNcIjpcImh0dHA6Ly9maWxlLnh1ZWNoZW5nLXBsdXMuY29tL2RkZGZcIixcInV0eXBlXCI6XCIxMDEwMDFcIn0iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNjc4NDUwNTE2LCJhdXRob3JpdGllcyI6WyJ0ZXN0Il0sImp0aSI6IjRkZjQ4YjA3LTk0ZjMtNDE2OC04NmE0LTcwNzA3ZDNmMGJlMCIsImNsaWVudF9pZCI6IlhjV2ViQXBwIn0.S7e6jq3bk_Hy8ujmfkYzjGm9aoW-FQVK-Tt7iJqEtt4
