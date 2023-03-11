@@ -3,6 +3,7 @@ package com.xuecheng.ucenter.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
+import com.xuecheng.ucenter.model.dto.AuthParamsDto;
 import com.xuecheng.ucenter.model.po.XcUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
@@ -28,7 +29,16 @@ public class UserServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		String username=s;
+        //将传入的json转成AuthParamDto对象
+        AuthParamsDto authParamsDto=null;
+        try {
+            authParamsDto = JSON.parseObject(s, AuthParamsDto.class);
+        } catch (Exception e) {
+            throw new RuntimeException("请求认证参数不符合要求");
+        }
+
+
+        String username= authParamsDto.getUsername();
 		//根据username查询数据库
 		XcUser xcUser = xcUserMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, username));
 		//查询到用户不存在 返回null即可,spring security框架会抛出异常
