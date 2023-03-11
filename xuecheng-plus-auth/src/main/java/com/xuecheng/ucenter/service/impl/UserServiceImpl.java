@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.xuecheng.ucenter.mapper.XcUserMapper;
 import com.xuecheng.ucenter.model.dto.AuthParamsDto;
+import com.xuecheng.ucenter.model.dto.XcUserExt;
 import com.xuecheng.ucenter.model.po.XcUser;
+import com.xuecheng.ucenter.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,7 +29,12 @@ public class UserServiceImpl implements UserDetailsService {
 	
 	@Resource
 	XcUserMapper xcUserMapper;
-	
+
+    //spring容器
+    @Resource
+    ApplicationContext applicationContext;
+
+
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         //将传入的json转成AuthParamDto对象
@@ -37,7 +45,14 @@ public class UserServiceImpl implements UserDetailsService {
             throw new RuntimeException("请求认证参数不符合要求");
         }
 
+        //认证方式 如password wx
+        String authType = authParamsDto.getAuthType();
 
+        //根据认证类型从spring容器中取出指定的Bean
+        String beanName=authType+"_authservice";
+        AuthService authService = applicationContext.getBean(beanName, AuthService.class);
+        //调用统一的execute方法完成认证
+        XcUserExt execute = authService.execute(authParamsDto);
         String username= authParamsDto.getUsername();
 		//根据username查询数据库
 		XcUser xcUser = xcUserMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, username));
