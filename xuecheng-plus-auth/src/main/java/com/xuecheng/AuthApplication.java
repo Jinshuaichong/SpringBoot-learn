@@ -15,11 +15,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableFeignClients
 @SpringBootApplication
 public class AuthApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
+    }
+
+
+    @Bean
+    RestTemplate restTemplate(){
+        RestTemplate restTemplate = new RestTemplate(new OkHttp3ClientHttpRequestFactory());
+
+        return  restTemplate;
     }
 
 }
