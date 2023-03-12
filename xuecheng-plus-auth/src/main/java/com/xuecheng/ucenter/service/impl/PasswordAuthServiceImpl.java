@@ -14,42 +14,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @author Mr.M
  * @version 1.0
- * @description 账号密码认证
- * @date 2022/10/20 14:49
+ * @Description 账号密码认证
+ * @Date 2022/10/20 14:49
  */
 @Slf4j
 @Service("password_authservice")
 public class PasswordAuthServiceImpl implements AuthService {
 
-    @Autowired
+    @Resource
     XcUserMapper userMapper;
 
-    @Autowired
+    @Resource
     PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @Resource
     CheckCodeClient checkCodeClient;
+
 
     //实现账号和密码认证
     @Override
     public XcUserExt execute(AuthParamsDto authParamsDto) {
 
-//        //得到验证码
-//        String checkcode = authParamsDto.getCheckcode();
-//        String checkcodekey = authParamsDto.getCheckcodekey();
-//        if(StringUtils.isBlank(checkcodekey) || StringUtils.isBlank(checkcode)){
-//            throw new RuntimeException("验证码为空");
-//
-//        }
-//
-//        //校验验证码,请求验证码服务进行校验
-//        Boolean result = checkCodeClient.verify(checkcodekey, checkcode);
-//        if(result==null || !result){
-//            throw new RuntimeException("验证码错误");
-//        }
+        //得到验证码
+        String checkcode = authParamsDto.getCheckcode();
+        String checkcodekey = authParamsDto.getCheckcodekey();
+        if(StringUtils.isBlank(checkcodekey) || StringUtils.isBlank(checkcode)){
+            throw new RuntimeException("验证码为空");
+
+        }
+
+        //校验验证码,请求验证码服务进行校验
+        Boolean result = checkCodeClient.verify(checkcodekey, checkcode);
+        if(result==null || !result){
+            throw new RuntimeException("验证码错误");
+        }
 
         //账号
         String username = authParamsDto.getUsername();
