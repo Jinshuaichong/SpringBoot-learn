@@ -1,12 +1,15 @@
 package com.xuecheng.auth.controller;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import com.xuecheng.ucenter.model.po.XcUser;
 import com.xuecheng.ucenter.service.impl.WxAuthServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -15,28 +18,25 @@ import java.io.IOException;
  * @date 2022/10/20 16:47
  * @version 1.0
  */
- @Controller
+@Slf4j
+@Controller
 public class WxLoginController {
+     @Resource
+     WxAuthServiceImpl wxAuthService;
+     @RequestMapping("/wxLogin")
+     public String wxLogin(String code,String state) throws IOException{
+         log.debug("微信扫码回调,code:{},state:{}",code,state);
 
-  @Autowired
- WxAuthServiceImpl wxAuthService;
-
-
-  @RequestMapping("/wxLogin")
-  public String wxLogin(String code, String state) throws IOException {
-
-     //拿授权码申请令牌，查询用户
-   XcUser xcUser = wxAuthService.wxAuth(code);
-   if(xcUser == null){
-     //重定向到一个错误页面
-     return "redirect:http://www.xuecheng-plus.com/error.html";
-   }else{
-    String username = xcUser.getUsername();
-    //重定向到登录页面，自动登录
-     return "redirect:http://www.xuecheng-plus.com/sign.html?username="+username+"&authType=wx";
-   }
-
-  }
+         //远程调用微信申请令牌,拿到令牌查询用户信息,将用户信息写入本项目数据库
+         XcUser xcUser=new XcUser();
+         //暂时指定账号,测试一下
+         xcUser.setUsername("t1");
+         if(xcUser==null){
+             return "rediect:http://www.xucheng-plus.com/error.html";
+         }
+         String username=xcUser.getUsername();
+         return "rediect:http://www.xuecheng-plus.com/sign.html?username="+username+"&authType=wx";
+     }
 
 
 
