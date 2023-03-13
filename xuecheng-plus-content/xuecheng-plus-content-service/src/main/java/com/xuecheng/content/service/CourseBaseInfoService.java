@@ -18,12 +18,16 @@ import com.xuecheng.content.model.po.CourseBase;
 public interface CourseBaseInfoService {
 
     /**
-     *
+     * @MethodName queryCourseBaseList
+     * @Description 分页查询结果
+     * @param companyId 机构id
      * @param params 分页参数
      * @param queryCourseParamsDto 查询条件
-     * @return com.xuecheng.base.model.PageResult
-     */
-    public PageResult<CourseBase> queryCourseBaseList(PageParams params, QueryCourseParamsDto queryCourseParamsDto);
+     * @return com.xuecheng.base.model.PageResult<com.xuecheng.content.model.po.CourseBase>
+     * @Author Metty
+     * @Date 2023/3/13 20:53
+    */
+    public PageResult<CourseBase> queryCourseBaseList(Long companyId,PageParams params, QueryCourseParamsDto queryCourseParamsDto);
 	
 	/**
 	 * 新增课程
@@ -36,8 +40,7 @@ public interface CourseBaseInfoService {
 	/**
 	 * 获取课程信息接口
 	 * @param courseID 课程id
-	 * @return
-	 */
+     */
 	public CourseBaseInfoDto getCourseBaseInfo(Long courseID);
 	
 	/**

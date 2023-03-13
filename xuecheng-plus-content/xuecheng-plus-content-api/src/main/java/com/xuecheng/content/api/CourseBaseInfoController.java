@@ -8,8 +8,10 @@ import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
 import com.xuecheng.content.model.po.CourseBase;
 import com.xuecheng.content.service.CourseBaseInfoService;
+import com.xuecheng.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -33,8 +35,15 @@ public class CourseBaseInfoController {
     @PostMapping("/course/list")
     @PreAuthorize("hasAuthority('xc_teachmanager_course_list')")//指定权限标识符
     public PageResult<CourseBase> list(PageParams params, @RequestBody QueryCourseParamsDto queryCourseParamsDto){
+        
+        //当前登陆的用户
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        Long companyId=null;
+        if(StringUtils.isNotEmpty(user.getCompanyId())){
+            companyId=Long.parseLong(user.getCompanyId());
+        }
         //调用service获取数据
-	    return courseBaseInfoService.queryCourseBaseList(params, queryCourseParamsDto);
+	    return courseBaseInfoService.queryCourseBaseList(companyId,params, queryCourseParamsDto);
     }
 	
 	@ApiOperation("新增课程接口")
