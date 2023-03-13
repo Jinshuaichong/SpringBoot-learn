@@ -36,7 +36,7 @@ class ContentServiceApplicationTests {
     @Test
     void testCourseBaseInfoService() {
         PageParams pageParams = new PageParams();
-        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(pageParams, new QueryCourseParamsDto());
+        PageResult<CourseBase> courseBasePageResult = courseBaseInfoService.queryCourseBaseList(null,pageParams, new QueryCourseParamsDto());
         System.out.println(courseBasePageResult);
     }
 	
