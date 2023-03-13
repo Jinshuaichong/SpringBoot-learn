@@ -29,10 +29,8 @@ public class WxLoginController {
          log.debug("微信扫码回调,code:{},state:{}",code,state);
 
          //远程调用微信申请令牌,拿到令牌查询用户信息,将用户信息写入本项目数据库
-         XcUser xcUser1 = wxAuthService.wxAuth(code);
-         XcUser xcUser=new XcUser();
+         XcUser xcUser = wxAuthService.wxAuth(code);
          //暂时指定账号,测试一下
-         xcUser.setUsername("t1");
          if(xcUser==null){
              return "rediect:http://www.xucheng-plus.com/error.html";
          }
