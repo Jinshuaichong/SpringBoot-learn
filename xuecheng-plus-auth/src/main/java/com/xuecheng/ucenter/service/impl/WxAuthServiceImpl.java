@@ -55,7 +55,11 @@ public class WxAuthServiceImpl implements AuthService, WxAuthService {
     @Override
     public XcUserExt execute(AuthParamsDto authParamsDto) {
         //获取账号
+        String username = authParamsDto.getUsername();
         XcUser xcUser = xcUserMapper.selectOne(new LambdaQueryWrapper<XcUser>().eq(XcUser::getUsername, authParamsDto.getUsername()));
+        if(xcUser==null){
+            throw new RuntimeException("用户不存在");
+        }
         XcUserExt xcUserExt = new XcUserExt();
         BeanUtils.copyProperties(xcUser, xcUserExt);
 
