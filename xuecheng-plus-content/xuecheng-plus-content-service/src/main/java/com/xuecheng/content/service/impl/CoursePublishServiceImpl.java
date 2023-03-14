@@ -250,11 +250,17 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 			XueChengPlusException.cast("创建课程索引失败");
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	/***
+
+    @Override
+    public CoursePublish getCoursePublish(Long courseId) {
+        return coursePublishMapper.selectById(courseId);
+    }
+
+
+    /***
 	 * @MethodName saveCoursePublish
 	 * @Description 保存课程发布信息
 	 * @param courseId 课程id
