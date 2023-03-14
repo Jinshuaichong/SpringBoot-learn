@@ -46,4 +46,20 @@ import org.springframework.web.bind.annotation.RestController;
     }
 
 
+    @ApiOperation("查询学习资格")
+    @PostMapping("/choosecourse/learnstatus/{courseId}")
+    public XcCourseTablesDto getLearnstatus(@PathVariable("courseId") Long courseId){
+        //当前登录的用户
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        if(user==null){
+            XueChengPlusException.cast("请登录");
+        }
+        //用户id
+        String id = user.getId();
+        XcCourseTablesDto learningStatus = myCourseTablesService.getLearningStatus(id, courseId);
+        return learningStatus;
+
+
+    }
+
  }

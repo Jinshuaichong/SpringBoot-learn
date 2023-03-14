@@ -54,23 +54,68 @@ public class MyCourseTablesServiceImpl implements MyCourseTablesService {
         }
         //收费规则
         String charge = coursepublish.getCharge();
+        //选课记录
+        XcChooseCourse chooseCourse=null;
         if("201000".equals(charge)){
             //如果课程免费 就向选课记录表写数据
-            XcChooseCourse xcChooseCourse = addFreeCourse(userId, coursepublish);
+            chooseCourse = addFreeCourse(userId, coursepublish);
             //我的课程表写数据
-            XcCourseTables xcCourseTables = addCourseTables(xcChooseCourse);
+            XcCourseTables xcCourseTables = addCourseTables(chooseCourse);
 
         }else {
             //如果收费 会向选课记录表写数据
-            XcChooseCourse xcChooseCourse = addChargeCourse(userId, coursepublish);
+            chooseCourse = addChargeCourse(userId, coursepublish);
         }
 
-
-
-
         //判断学生的学习资格
+        XcCourseTablesDto xcCourseTablesDto = getLearningStatus(userId, courseId);
+        //构造返回值
+        XcChooseCourseDto xcChooseCourseDto=new XcChooseCourseDto();
+        BeanUtils.copyProperties(chooseCourse,xcChooseCourseDto);
+        //设置学习资格
+        xcChooseCourseDto.setLearnStatus(xcCourseTablesDto.getLearnStatus());
+        return xcChooseCourseDto;
+    }
 
-        return null;
+    /**
+     *学习资格状态
+     * {
+     *     "code": "702001",
+     *     "desc": "正常学习"
+     * },
+     * {
+     *     "code": "702002",
+     *     "desc": "没有选课或选课后没有支付"
+     * },
+     * {
+     *     "code": "702003",
+     *     "desc": "已过期需要申请续期或重新支付"
+     * }
+    */
+    @Override
+    public XcCourseTablesDto getLearningStatus(String userId, Long courseId) {
+        //查询我的课程表 如果查不到就是没有选课,
+        XcCourseTablesDto courseTablesDto=new XcCourseTablesDto();
+        XcCourseTables xcCourseTables = getXcCourseTables(userId, courseId);
+        if(xcCourseTables==null){
+
+            courseTablesDto.setLearnStatus("702002");
+            return courseTablesDto;
+        }
+        //如果查到了,判断是否过期,过期了不能学习
+        boolean before = xcCourseTables.getValidtimeEnd().isBefore(LocalDateTime.now());
+        if(before){
+            //过期了
+            courseTablesDto.setLearnStatus("702003");
+            BeanUtils.copyProperties(xcCourseTables,courseTablesDto);
+            return courseTablesDto;
+        }else {
+            //正常学习
+            courseTablesDto.setLearnStatus("702001");
+            BeanUtils.copyProperties(xcCourseTables,courseTablesDto);
+            return courseTablesDto;
+        }
+
     }
 
 

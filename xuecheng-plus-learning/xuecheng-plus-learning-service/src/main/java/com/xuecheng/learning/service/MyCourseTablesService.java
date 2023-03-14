@@ -1,6 +1,7 @@
 package com.xuecheng.learning.service;
 
 import com.xuecheng.learning.model.dto.XcChooseCourseDto;
+import com.xuecheng.learning.model.dto.XcCourseTablesDto;
 
 /**
  * @author Mr.M
@@ -22,6 +23,17 @@ public interface MyCourseTablesService {
      * @Date 2023/3/14 14:55
     */
     public XcChooseCourseDto addChooseCourse(String userId,Long courseId);
+
+    /**
+     * @MethodName getLearningStatus
+     * @Description 查询用户对某一课程的学习状态
+     * @param userId 用户id
+     * @param courseId 课程id
+     * @return com.xuecheng.learning.model.dto.XcCourseTablesDto
+     * @Author Metty
+     * @Date 2023/3/14 16:38
+    */
+    public XcCourseTablesDto getLearningStatus(String userId,Long courseId);
 
 
 }
