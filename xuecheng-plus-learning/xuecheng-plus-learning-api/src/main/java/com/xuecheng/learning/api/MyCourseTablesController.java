@@ -34,6 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
     public XcChooseCourseDto addChooseCourse(@PathVariable("courseId") Long courseId) {
         //当前登录用户
         SecurityUtil.XcUser user = SecurityUtil.getUser();
+        if(user==null){
+            XueChengPlusException.cast("请登录");
+        }
         //用户id
         String userId = user.getId();
         //调用service添加选课
