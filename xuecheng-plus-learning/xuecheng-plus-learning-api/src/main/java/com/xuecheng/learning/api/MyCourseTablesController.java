@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @description 我的课程表接口
- * @author Mr.M
- * @date 2022/10/25 9:40
- * @version 1.0
- */
+ * @Description TODO
+ * @Author Metty
+ * @Date 2023/3/14 17:07
+*/
 
  @Api(value = "我的课程表接口", tags = "我的课程表接口")
  @Slf4j
@@ -40,9 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
         //用户id
         String userId = user.getId();
         //调用service添加选课
-        XcChooseCourseDto xcChooseCourseDto = myCourseTablesService.addChooseCourse(userId, courseId);
 
-        return xcChooseCourseDto;
+        return myCourseTablesService.addChooseCourse(userId, courseId);
     }
 
 
@@ -56,8 +54,7 @@ import org.springframework.web.bind.annotation.RestController;
         }
         //用户id
         String id = user.getId();
-        XcCourseTablesDto learningStatus = myCourseTablesService.getLearningStatus(id, courseId);
-        return learningStatus;
+        return myCourseTablesService.getLearningStatus(id, courseId);
 
 
     }
