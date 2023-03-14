@@ -25,34 +25,22 @@ import org.springframework.web.bind.annotation.RestController;
  @RestController
  public class MyCourseTablesController {
 
-  @Autowired
- MyCourseTablesService myCourseTablesService;
+    @Autowired
+    MyCourseTablesService myCourseTablesService;
 
 
-  @ApiOperation("添加选课")
-  @PostMapping("/choosecourse/{courseId}")
-  public XcChooseCourseDto addChooseCourse(@PathVariable("courseId") Long courseId)  {
-    //当前登录用户
-    SecurityUtil.XcUser user = SecurityUtil.getUser();
-    //用户id
-    String userId = user.getId();
-   //调用service添加选课
-   XcChooseCourseDto xcChooseCourseDto = myCourseTablesService.addChooseCourse(userId, courseId);
+    @ApiOperation("添加选课")
+    @PostMapping("/choosecourse/{courseId}")
+    public XcChooseCourseDto addChooseCourse(@PathVariable("courseId") Long courseId) {
+        //当前登录用户
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        //用户id
+        String userId = user.getId();
+        //调用service添加选课
+        XcChooseCourseDto xcChooseCourseDto = myCourseTablesService.addChooseCourse(userId, courseId);
 
-   return xcChooseCourseDto;
-  }
+        return xcChooseCourseDto;
+    }
 
- @ApiOperation("查询学习资格")
- @PostMapping("/choosecourse/learnstatus/{courseId}")
- public XcCourseTablesDto getLearnstatus(@PathVariable("courseId") Long courseId) {
-  //登录用户
-  SecurityUtil.XcUser user = SecurityUtil.getUser();
-  if(user == null){
-   XueChengPlusException.cast("请登录后继续选课");
-  }
-  String userId = user.getId();
-  return  myCourseTablesService.getLeanringStatus(userId, courseId);
-
- }
 
  }
