@@ -51,7 +51,12 @@ public class CourseBaseInfoController {
 	public CourseBaseInfoDto creatCourseBase(@RequestBody @Validated AddCourseDto addCourseDto){
 		
 		//获取当前用户所属培训机构的id
-		Long companyId = 22L;
+        //当前登陆的用户
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        Long companyId=null;
+        if(StringUtils.isNotEmpty(user.getCompanyId())){
+            companyId=Long.parseLong(user.getCompanyId());
+        }
 		//调用service
 		return courseBaseInfoService.createCourseBase(companyId, addCourseDto);
 	}
