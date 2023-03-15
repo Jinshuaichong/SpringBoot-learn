@@ -74,8 +74,13 @@ public class CourseBaseInfoController {
 	@ApiOperation("修改课程基本信息")
 	@PutMapping("/course")
 	public CourseBaseInfoDto modifyCourseBase(@RequestBody EditCourseDto dto){
-		
-		Long companyId = 1232141425L;
+
+        //当前登陆的用户
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        Long companyId=null;
+        if(StringUtils.isNotEmpty(user.getCompanyId())){
+            companyId=Long.parseLong(user.getCompanyId());
+        }
 		return courseBaseInfoService.updateCourseBaseInfo(companyId, dto);
 	}
 
