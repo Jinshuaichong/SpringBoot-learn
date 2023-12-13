@@ -107,14 +107,16 @@ public class DateUtil {
      */
     public static Date format(String strDate, String format) {
         Date d = null;
-        if (null == strDate || "".equals(strDate))
+        if (null == strDate || "".equals(strDate)){
             return null;
-        else
+        }
+        else{
             try {
                 d = getFormatter(format).parse(strDate);
             } catch (ParseException pex) {
                 return null;
             }
+        }
         return d;
     }
 
